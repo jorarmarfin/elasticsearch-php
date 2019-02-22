@@ -2,11 +2,11 @@
 require 'vendor/autoload.php';
 
 
-$hosts = ['94.130.73.248:9200'];
+$hosts = ['http://localhost:9200'];
 
 $client = Elasticsearch\ClientBuilder::create()->setHosts($hosts)->build();
 
-$url="http://padron.sahost.com.pe/api/v1/postulante/rango/1/1000";
+$url="http://padron.sahost.com.pe/api/v1/postulante/rango/4001/5513";
 $json=file_get_contents($url);
 $array = json_decode($json);
 
@@ -15,16 +15,24 @@ $i=0;
 foreach ($array as $key => $obj) {
     $data['id']=$obj->id;
     $data['nroins']=$obj->nroins;
-    $data['codigo']=$obj->codigo;
+    if ($obj->codigo) {
+        $data['codigo']=$obj->codigo;
+    }
     $data['paterno']=$obj->paterno;
     $data['materno']=$obj->materno;
     $data['nombre']=$obj->nombre;
     $data['sexo']=$obj->sexo;
     $data['fecha_nacimiento']=$obj->fecha_nacimiento;
     $data['pais_nacimiento']=$obj->pais_nacimiento;
-    $data['departamento_nacimiento']=$obj->departamento_nacimiento;
-    $data['provincia_nacimiento']=$obj->provincia_nacimiento;
-    $data['distrito_nacimiento']=$obj->distrito_nacimiento;
+    if ($obj->departamento_nacimiento) {
+        $data['departamento_nacimiento']=$obj->departamento_nacimiento;
+    }
+    if ($obj->provincia_nacimiento) {
+        $data['provincia_nacimiento']=$obj->provincia_nacimiento;
+    }
+    if ($obj->distrito_nacimiento) {
+        $data['distrito_nacimiento']=$obj->distrito_nacimiento;
+    }
     $data['pais_residencia']=$obj->pais_residencia;
     $data['departamento_residencia']=$obj->departamento_residencia;
     $data['provincia_residencia']=$obj->provincia_residencia;
@@ -34,15 +42,27 @@ foreach ($array as $key => $obj) {
     $data['canal']=$obj->canal;
     $data['primera_modalidad']=$obj->primera_modalidad;
     $data['primera_opcion']=$obj->primera_opcion;
-    $data['segunda_modalidad']=$obj->segunda_modalidad;
-    $data['segunda_opcion']=$obj->segunda_opcion;
-    $data['espeing']=$obj->espeing;
+    if ($obj->segunda_modalidad) {
+        $data['segunda_modalidad']=$obj->segunda_modalidad;
+    }
+    if ($obj->segunda_opcion) {
+        $data['segunda_opcion']=$obj->segunda_opcion;
+    }
+    if ($obj->espeing) {
+        $data['espeing']=$obj->espeing;
+    }
     $data['tipo_ie']=$obj->tipo_ie;
     $data['nombre_ie']=$obj->nombre_ie;
     $data['pais_ie']=$obj->pais_ie;
-    $data['departamento_ie']=$obj->departamento_ie;
-    $data['provincia_ie']=$obj->provincia_ie;
-    $data['distrito_ie']=$obj->distrito_ie;
+    if ($obj->departamento_ie) {
+        $data['departamento_ie']=$obj->departamento_ie;
+    }
+    if ($obj->provincia_ie) {
+        $data['provincia_ie']=$obj->provincia_ie;
+    }
+    if ($obj->distrito_ie) {
+        $data['distrito_ie']=$obj->distrito_ie;
+    }
     $data['academia']=$obj->academia;
     $data['ingreso_familiar']=$obj->ingreso_familiar;
     $data['veces_postula']=$obj->veces_postula;
@@ -58,8 +78,8 @@ foreach ($array as $key => $obj) {
         'body' => $data,
        ];
     
-    
     $response = $client->index($params);
+    echo $i."\n";
     $i++;
 }
 

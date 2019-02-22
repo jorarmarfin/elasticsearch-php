@@ -9,9 +9,9 @@ $hosts = [
 $client = Elasticsearch\ClientBuilder::create()           // Instantiate a new ClientBuilder
                     ->setHosts($hosts)      // Set the hosts
                     ->build();
-// if ($client) {
-//     echo 'connected';
-// }
+if ($client) {
+    echo 'connected';
+}
 
 // $params = [
 //     'index' => 'my_index',
