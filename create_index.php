@@ -2,11 +2,11 @@
 require 'vendor/autoload.php';
 
 
-$hosts = ['http://localhost:9200'];
+$hosts = ['http://search-jamc-w4uaio3yhujwk5k5gxofhlai5e.us-east-1.es.amazonaws.com:80'];
 
 $client = Elasticsearch\ClientBuilder::create()->setHosts($hosts)->build();
 
-$url="http://padron.sahost.com.pe/api/v1/postulante/rango/4001/5513";
+$url="http://padron.sahost.com.pe/api/v1/postulante/rango/5001/5513";
 $json=file_get_contents($url);
 $array = json_decode($json);
 
@@ -74,12 +74,11 @@ foreach ($array as $key => $obj) {
 
     $params = [
         'index' => 'postulantes_index',
-        'type' => 'my_type',
+        'type' => 'sql',
         'body' => $data,
        ];
     
     $response = $client->index($params);
-    echo $i."\n";
     $i++;
 }
 
